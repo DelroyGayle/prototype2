@@ -1,3 +1,19 @@
+:root {
+  --colour-white: #ffffff;
+  --colour-black: #000000;
+}
+
+/* Make the placeholder italics */
+
+
+::placeholder {
+  color: var(--colour-black);
+  font-size: 1em;
+  font-style: italic;
+  font-weight:700;
+  padding: 1em 0 0 1em;
+}
+
 .App {
   text-align: center;
 }
@@ -21,7 +37,15 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: var(--colour-white);
+}
+
+.title-header {
+  background-color: #282c34;
+  text-align: center;
+  font-size: calc(2em + 2vmin);
+  padding: 0.1em;
+  color: var(--colour-white);
 }
 
 .App-link {
@@ -35,4 +59,129 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+body {
+  padding: 2em;
+  background-color: var(--colour-black);
+}
+
+.table {
+  width: 100%;
+}
+
+table,
+th,
+td {
+  border: 1px solid var(--colour-white);
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 0.25em;
+}
+
+/* .table tr {
+  border-bottom: 1px solid #DDD;
+} 
+*/
+
+td.edit-buttons {
+  text-align: right;
+}
+
+button {
+  border-radius: 3px;
+  border: none;
+  margin: 0 0.25em;
+  transition: all 0.3s;
+}
+
+button:hover {
+  box-shadow: 0 0 4px rgba(3, 3, 3, 0.8);
+  opacity: 0.9;
+}
+
+button.edit {
+  background: #6F9;
+}
+
+button.delete {
+  background: #F69;
+}
+
+.td-letter-column {
+  width: 3em;
+  border-style: hidden;
+}
+
+.td-goal-column {
+  background: var(--colour-white);
+  border-style: hidden;
+  width:20%
+}
+
+.td-goal-text-entry {
+  width: 60%;
+  border-style: hidden;
+}
+
+.td-remaining {
+  border-style: hidden;
+}
+
+.td-expand-button {
+  border-style: hidden;
+  width: 5%;
+}
+
+.goal-letter {
+  font-size: 6em;
+  color: var(--colour-white);
+  text-align: center;
+}
+
+.goal-attribute {
+  font-size: 2em;
+  background-color: var(--colour-white);
+  color: var(--colour-black);
+}
+
+.text-area {
+  width: 53em;
+  margin:0.3em;
+  font-size: 1em;
+}
+
+@media screen and (max-width: 800px) {
+  tr {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0.5em 0;
+    border: 1px solid rgba(3, 3, 3, 0.2);
+  }
+
+  td,
+  th {
+    flex: 1 1 150px;
+    border: 0.5px solid rgba(3, 3, 3, 0.2);
+  }
+
+  td {
+      height: 100%;
+  }
+
+  td.edit-buttons,
+  td.empty {
+    /*flex: 1 0 90%;
+    text-align: center;*/
+  }
+}
+
+* {
+  box-model: border-box;
+  font-family: 'futura';
 }
