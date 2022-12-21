@@ -3,7 +3,7 @@ import React from "react";
 // import SearchResults from "./SearchResults.js";
 // import FakeBookings from "./data/fakeBookings.json";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Setup
 const S_PLAN = 0;
@@ -37,13 +37,12 @@ const EnterPlans = () => {
     [0],
   ]);
 
-  const [remainingText, setRemainingText] = useState([
-    [""],
-    [""],
-    [""],
-    [""],
-    [""],
-  ]);
+  const [remainingNumber, setRemainingNumber] = useState([
+    PLAN_ENTRY_LIMIT,
+    PLAN_ENTRY_LIMIT,
+    PLAN_ENTRY_LIMIT,
+    PLAN_ENTRY_LIMIT,
+    PLAN_ENTRY_LIMIT]);
 
   const [remainingTextColour, setRemainingTextColour] = useState([
     [REMAINING_TEXT_DEFAULT_COLOUR],
@@ -66,9 +65,11 @@ const EnterPlans = () => {
       const updatedCount = [...planCharacterCount];
       updatedCount[whichPlan] = newRemainingText;
       setPlanCharacterCount(updatedCount);
+      /*
       const updatedRemainingText = [...remainingText];
       updatedRemainingText[whichPlan] = newRemainingText;
       setRemainingText(updatedCount);
+      */
       // Show Number Of Characters Remaining Text's Colour
       if (remainingTextColour[whichPlan] !== newRemainingTextColour) {
         const updatedColour = [...remainingTextColour];
@@ -78,50 +79,71 @@ const EnterPlans = () => {
     }
   }
 
+  function applyPrevent(event) {
+         if (!(["Tab", "Enter", "Space"].includes(event.code) && event.key.length !== 1)) {
+                 event.preventDefault()
+         };
+  }
+  
   function checkKeyEvent(event, charCount) {
     /*
    These checks are not exhaustive.
    They are used to check regarding keystrokes, whether they would make any difference 
    to the actual Character Count
-   For more information regarding the keycode constants used 
-   see https://css-tricks.com/snippets/javascript/javascript-keycodes/  
+   For more information regarding the keycode constants see
+   https://css-tricks.com/snippets/javascript/javascript-keycodes/   
+   
+   http://gcctech.org/csc/javascript/javascript_keycodes.htm
+
+
+   see  
+   see 
 */
 
     const BACKSPACE = 8,
       // TAB = 9,
+      ENTER = 13,
       SPACE = 32,
       DELETE = 46,
+      ZERO = 48,
       LEFTWINDOW = 91,
       RIGHTWINDOW = 92,
       SELECT = 93,
       FUNCTIONKEY_F1 = 112,
-      SCROLL_LOCK = 145;
+      // SCROLL_LOCK = 145,
+      MYCOMPUTER = 182,
+      MYCALCULATOR = 183;
 
-    const ZERO = 48,
-      ENTER = 13;
+    const eventCode = event.code;
+    const eventKey = event.key;
 
-    let keyCode = event.which;
+    const eventKeyCode = event.keyCode;
 
-    console.log(event.which, keyCode);
+    console.log(eventCode, eventKey, event.keyCode);
+
     console.log(event);
-    if (keyCode === BACKSPACE || keyCode === DELETE) {
+
+    if (eventKeyCode === BACKSPACE || eventKeyCode === DELETE) {
       --charCount; // assume character deleted so decrement count
       return charCount;
     }
 
-    if (keyCode === SPACE || keyCode === ENTER) {
+    if (eventKeyCode === SPACE || eventKeyCode === ENTER) {
       ++charCount;
       return charCount;
     }
 
     // ignore the following keystrokes including TAB (which is equal to 9)
     if (
-      keyCode < ZERO ||
-      keyCode === LEFTWINDOW ||
-      keyCode === RIGHTWINDOW ||
-      keyCode === SELECT ||
-      (keyCode >= FUNCTIONKEY_F1 && keyCode <= SCROLL_LOCK)
+      eventKeyCode < ZERO ||
+      eventKeyCode === LEFTWINDOW ||
+      eventKeyCode === RIGHTWINDOW ||
+      eventKeyCode === SELECT ||
+      eventKeyCode === MYCOMPUTER ||
+      eventKeyCode === MYCALCULATOR ||
+      (eventKeyCode >= FUNCTIONKEY_F1 && eventKeyCode <= MYCALCULATOR)
     ) {
+      event.preventDefault();
       return charCount;
     }
 
@@ -132,6 +154,7 @@ const EnterPlans = () => {
 
   function checkAndIncrementCharCount(event, whichPlan, enteredPlan) {
     let charCount;
+    //applyPrevent(event);
     if (enteredPlan === "") {
       charCount = 0;
     } else {
@@ -169,7 +192,7 @@ const EnterPlans = () => {
 
   // onKeyDown handler function
   const keyDownHandler = (event, whichPlan) => {
-    console.log(event.code, event.key, PLAN_INPUT_IDS[whichPlan]);
+    console.log(event.code, event.key, event.keyCode);
     console.log("DOC", document.getElementById(PLAN_INPUT_IDS[whichPlan]));
     console.log("H>", event.target.value);
     //let enteredPlan = document.getElementById(PLAN_INPUT_IDS[whichPlan]).trim();
@@ -177,6 +200,16 @@ const EnterPlans = () => {
     console.log(enteredPlan, planInputs[S_PLAN]);
     theKey = event.key
   };
+
+    useEffect(() => {
+      // attach the event listener
+      document.addEventListener("keydown", handleKeyPress);
+
+      // remove the event listener
+      return () => {
+        document.removeEventListener("keydown", handleKeyPress);
+      };
+    }, [handleKeyPress]);
 
   return (
     <div className="App">
@@ -203,7 +236,7 @@ const EnterPlans = () => {
                       name="S-goal"
                       autoComplete="off"
                       value={planInputs[S_PLAN]}
-                      onChange={(event) => handleChange(event, 0)}
+                      //onChange={(event) => handleChange(event, 0)}
                       onKeyUp={(event) => keyDownHandler(event, 0)}
                     ></textarea>
                   </div>
