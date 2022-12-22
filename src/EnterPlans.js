@@ -22,48 +22,84 @@ const remainingLoc = document.querySelector(".remaining");
 let planInputs = [];
 let theKey;
 
+const showRemainingTextMessage = [];
+const remainingTextColourClass = [];
+const monthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+const currentTimeStamp = new Date(); // Current Date and Time
+const filenameTimeStamp = Date.now();
+const dayNumber = currentTimeStamp.getUTCDate(); // Day
+// getUTCMonth() is zero-based value (where zero indicates the first month of the year).
+// So January is ZERO
+const monthNumber = currentTimeStamp.getUTCMonth(); // Month
+const yearNumber = currentTimeStamp.getFullYear(); // Year
+let displayTimeStamp = `${dayNumber} ${monthNames[monthNumber]} ${yearNumber}`;
 const EnterPlans = () => {
   //   const search = (searchVal) => {
   //     console.info("TO DO!", searchVal);
   //   };
 
-  const [planText, setPlanText] = useState([[""], [""], [""], [""], [""]]);
+  const [planText, setPlanText] = useState(["", "", "", "", ""]);
 
-  const [planCharacterCount, setPlanCharacterCount] = useState([
-    [0],
-    [0],
-    [0],
-    [0],
-    [0],
-  ]);
+  const [planCharacterCount, setPlanCharacterCount] = useState([0, 0, 0, 0, 0]);
 
-  const [remainingNumber, setRemainingNumber] = useState([
-    PLAN_ENTRY_LIMIT,
-    PLAN_ENTRY_LIMIT,
-    PLAN_ENTRY_LIMIT,
-    PLAN_ENTRY_LIMIT,
-    PLAN_ENTRY_LIMIT]);
+  // const [remainingNumber, setRemainingNumber] = useState([
+  //   PLAN_ENTRY_LIMIT,
+  //   PLAN_ENTRY_LIMIT,
+  //   PLAN_ENTRY_LIMIT,
+  //   PLAN_ENTRY_LIMIT,
+  //   PLAN_ENTRY_LIMIT
+  // ]);
+
+  const [remainingNumber, setRemainingNumber] = useState(null);
 
   const [remainingTextColour, setRemainingTextColour] = useState([
-    [REMAINING_TEXT_DEFAULT_COLOUR],
-    [REMAINING_TEXT_DEFAULT_COLOUR],
-    [REMAINING_TEXT_DEFAULT_COLOUR],
-    [REMAINING_TEXT_DEFAULT_COLOUR],
-    [REMAINING_TEXT_DEFAULT_COLOUR],
+    true,
+    true,
+    true,
+    true,
+    true,
   ]);
 
   function showRemainingChars(whichPlan, updatedText, charCount) {
+    console.log("S+", whichPlan, updatedText, planText);
+    charCount = updatedText[whichPlan].length;
     let diff = PLAN_ENTRY_LIMIT - charCount;
     let newRemainingText = String(diff).padStart(3) + " Remaining Characters";
     // show in red if less or equal to 20 characters
-    let newRemainingTextColour =
-      diff <= 20 ? LESSTHAN21_COLOUR : REMAINING_TEXT_DEFAULT_COLOUR;
+    // let newRemainingTextColour =
+    //   diff <= 20 ? LESSTHAN21_COLOUR : REMAINING_TEXT_DEFAULT_COLOUR;
+    let newRemainingTextColour = diff > 20;
+
     // Show Entered Text
     setPlanText(updatedText);
     // Show Number Of Characters Remaining
+    console.log(
+      charCount,
+      updatedText,
+      planCharacterCount[whichPlan] !== charCount,
+      planCharacterCount[whichPlan],
+      whichPlan,
+      planCharacterCount
+    );
+
     if (planCharacterCount[whichPlan] !== charCount) {
       const updatedCount = [...planCharacterCount];
-      updatedCount[whichPlan] = newRemainingText;
+      updatedCount[whichPlan] = charCount;
+      console.log(updatedCount);
+      console.log(remainingTextColour[whichPlan], newRemainingTextColour);
       setPlanCharacterCount(updatedCount);
       /*
       const updatedRemainingText = [...remainingText];
@@ -74,17 +110,22 @@ const EnterPlans = () => {
       if (remainingTextColour[whichPlan] !== newRemainingTextColour) {
         const updatedColour = [...remainingTextColour];
         updatedColour[whichPlan] = newRemainingTextColour;
-        setRemainingTextColour(updatedCount);
+        setRemainingTextColour(updatedColour);
+        console.log(updatedColour);
       }
     }
   }
 
   function applyPrevent(event) {
-         if (!(["Tab", "Enter", "Space"].includes(event.code) && event.key.length !== 1)) {
-                 event.preventDefault()
-         };
+    if (
+      !(
+        ["Tab", "Enter", "Space"].includes(event.code) && event.key.length !== 1
+      )
+    ) {
+      event.preventDefault();
+    }
   }
-  
+
   function checkKeyEvent(event, charCount) {
     /*
    These checks are not exhaustive.
@@ -166,11 +207,15 @@ const EnterPlans = () => {
         charCount = PLAN_ENTRY_LIMIT;
       }
     }
-
+    console.log(planText, enteredPlan);
     if (enteredPlan !== planText[whichPlan]) {
       // Update display with the Remaining Characters
       const updatedText = [...planText];
+      console.log(planText);
       updatedText[whichPlan] = enteredPlan;
+      console.log(whichPlan, enteredPlan, updatedText);
+      console.log(whichPlan, planCharacterCount);
+
       showRemainingChars(
         whichPlan,
         updatedText,
@@ -198,189 +243,232 @@ const EnterPlans = () => {
     //let enteredPlan = document.getElementById(PLAN_INPUT_IDS[whichPlan]).trim();
     let enteredPlan = event.target.value.trim();
     console.log(enteredPlan, planInputs[S_PLAN]);
-    theKey = event.key
+    checkAndIncrementCharCount(event, whichPlan, enteredPlan);
+    theKey = event.key;
   };
 
-    useEffect(() => {
-      // attach the event listener
-      document.addEventListener("keydown", handleKeyPress);
+  // useEffect(() => {
+  //   // attach the event listener
+  //   document.addEventListener("keydown", handleKeyPress);
 
-      // remove the event listener
-      return () => {
-        document.removeEventListener("keydown", handleKeyPress);
-      };
-    }, [handleKeyPress]);
+  //   // remove the event listener
+  //   return () => {
+  //     document.removeEventListener("keydown", handleKeyPress);
+  //   };
+  // }, [handleKeyPress]);
+
+  useEffect(() => {
+    setRemainingNumber([1000, 1000, 1000, 1000, 1000]);
+  }, []);
+
+  useEffect(() => {
+    for (let i = 0; i < 5; i++) {
+      // Using -1 until I figure out why it is showing the previous value
+      const diff = PLAN_ENTRY_LIMIT - planCharacterCount[i] - 1;
+      console.log(PLAN_ENTRY_LIMIT, planCharacterCount, diff);
+      showRemainingTextMessage[i] =
+        String(diff).padStart(3) +
+        " Remaining Character" +
+        (diff !== 1 ? "s" : "");
+      remainingTextColourClass[i] = remainingTextColour[i]
+        ? "td-remaining-default"
+        : "td-remaining-less21";
+    }
+
+    console.log(planCharacterCount, showRemainingTextMessage);
+  }, [planText, planCharacterCount, remainingTextColour]);
 
   return (
-    <div className="App">
+    <div>
       <header className="user-header">
-        <table className="table">
-          <tr>
-            <td className="td-letter-column">
-              <section className="goal-letter">S</section>
-            </td>
-            <td className="td-goal-column">
-              <section className="goal-attribute">SPECIFIC</section>
-            </td>
-            <td className="td-goal-text-entry">
-              <div className="form-body">
-                <form className="row g-3">
-                  <div className="col-auto">
-                    <textarea
-                      className="text-area"
-                      rows="6"
-                      cols="90"
-                      placeholder="What do you want to do?"
-                      maxLength="1000"
-                      id="S-input"
-                      name="S-goal"
-                      autoComplete="off"
-                      value={planInputs[S_PLAN]}
-                      //onChange={(event) => handleChange(event, 0)}
-                      onKeyUp={(event) => keyDownHandler(event, 0)}
-                    ></textarea>
-                  </div>
-                </form>
-              </div>
-            </td>
-            <td className="td-remaining">
-              <section className="remaining" id="S-remaining"></section>
-            </td>
-            <td className="td-expand-button edit-buttons">
-              <button className="edit">Edit</button>
-              {/* <button className="delete">Delete</button> */}
-            </td>
-          </tr>
-          <tr>
-            <td className="td-letter-column">
-              <section className="goal-letter">M</section>
-            </td>
-            <td className="td-goal-column">
-              <section className="goal-attribute">MEASURABLE</section>
-            </td>
-            <td className="td-goal-text-entry">
-              <div className="form-body">
-                <form className="row g-3">
-                  <div className="col-auto">
-                    <textarea
-                      className="text-area"
-                      id="M-input"
-                      name="M-goal"
-                      rows="6"
-                      cols="90"
-                      placeholder="How will you track your progress?"
-                      maxLength="1000"
-                    ></textarea>
-                  </div>
-                </form>
-              </div>
-            </td>
-            <td className="td-remaining">
-              <section className="remaining" id="M-remaining"></section>
-            </td>
-            <td className="td-expand-button edit-buttons">
-              <button className="edit">Edit</button>
-              {/* <button className="delete">Delete</button> */}
-            </td>
-          </tr>
-          <tr>
-            <td className="td-letter-column">
-              <section className="goal-letter">A</section>
-            </td>
-            <td className="td-goal-column">
-              <section className="goal-attribute">ACHIEVABLE</section>
-            </td>
-            <td className="td-goal-text-entry">
-              <div className="form-body">
-                <form className="row g-3">
-                  <div className="col-auto">
-                    <textarea
-                      className="text-area"
-                      id="A-input"
-                      name="A-goal"
-                      rows="6"
-                      cols="90"
-                      placeholder="How will you do it?"
-                      maxLength="1000"
-                    ></textarea>
-                  </div>
-                </form>
-              </div>
-            </td>
-            <td className="td-remaining">
-              <section className="remaining" id="A-remaining"></section>
-            </td>
-            <td className="td-expand-button edit-buttons">
-              <button className="edit">Edit</button>
-              {/* <button className="delete">Delete</button> */}
-            </td>
-          </tr>
-          <tr>
-            <td className="td-letter-column">
-              <section className="goal-letter">R</section>
-            </td>
-            <td className="td-goal-column">
-              <section className="goal-attribute">RELEVANT</section>
-            </td>
-            <td className="td-goal-text-entry">
-              <div className="form-body">
-                <form className="row g-3">
-                  <div className="col-auto">
-                    <textarea
-                      className="text-area"
-                      id="R-input"
-                      name="R-goal"
-                      rows="6"
-                      cols="90"
-                      placeholder="Is this relevant to your life now?"
-                      maxLength="1000"
-                    ></textarea>
-                  </div>
-                </form>
-              </div>
-            </td>
-            <td className="td-remaining">
-              <section className="remaining" id="R-remaining"></section>
-            </td>
-            <td className="td-expand-button edit-buttons">
-              <button className="edit">Edit</button>
-              {/* <button className="delete">Delete</button> */}
-            </td>
-          </tr>
-          <tr>
-            <td className="td-letter-column">
-              <section className="goal-letter">T</section>
-            </td>
-            <td className="td-goal-column">
-              <section className="goal-attribute">TIMEBOUND</section>
-            </td>
-            <td className="td-goal-text-entry">
-              <div className="form-body">
-                <form className="row g-3">
-                  <div className="col-auto">
-                    <textarea
-                      className="text-area"
-                      id="T-input"
-                      name="T-goal"
-                      rows="6"
-                      cols="90"
-                      placeholder="When do you want to do it?"
-                      maxLength="1000"
-                    ></textarea>
-                  </div>
-                </form>
-              </div>
-            </td>
-            <td className="td-remaining">
-              <section className="remaining" id="T-remaining"></section>
-            </td>
-            <td className="td-expand-button edit-buttons">
-              <button className="edit">Edit</button>
-              {/* <button className="delete">Delete</button> */}
-            </td>
-          </tr>
-        </table>
+        <div className="title-header">MY SMART GOALS</div>
+        <div className="title-header">{displayTimeStamp}</div>
       </header>
+      <table className="table">
+        <tr>
+          <td className="td-letter-column">
+            <section className="goal-letter">S</section>
+          </td>
+          <td className="td-goal-column">
+            <section className="goal-attribute">SPECIFIC</section>
+          </td>
+          <td className="td-goal-text-entry">
+            <div className="form-body">
+              <form className="row g-3">
+                <div className="col-auto">
+                  <textarea
+                    className="text-area"
+                    rows="6"
+                    cols="90"
+                    placeholder="What do you want to do?"
+                    maxLength="1000"
+                    id="S-input"
+                    name="S-goal"
+                    autoComplete="off"
+                    value={planInputs[S_PLAN]}
+                    //onChange={(event) => handleChange(event, 0)}
+                    onKeyUp={(event) => keyDownHandler(event, 0)}
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+          </td>
+          <td className="td-remaining">
+            <section className={remainingTextColourClass[0]} id="S-remaining">
+              {showRemainingTextMessage[0]}
+            </section>
+          </td>
+          <td className="td-expand-button edit-buttons">
+            <button className="edit">Edit</button>
+            {/* <button className="delete">Delete</button> */}
+          </td>
+        </tr>
+        <tr>
+          <td className="td-letter-column">
+            <section className="goal-letter">M</section>
+          </td>
+          <td className="td-goal-column">
+            <section className="goal-attribute">MEASURABLE</section>
+          </td>
+          <td className="td-goal-text-entry">
+            <div className="form-body">
+              <form className="row g-3">
+                <div className="col-auto">
+                  <textarea
+                    className="text-area"
+                    id="M-input"
+                    name="M-goal"
+                    rows="6"
+                    cols="90"
+                    placeholder="How will you track your progress?"
+                    maxLength="1000"
+                    onKeyUp={(event) => keyDownHandler(event, 1)}
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+          </td>
+          <td className="td-remaining">
+            <section className={remainingTextColourClass[1]} id="M-remaining">
+              {showRemainingTextMessage[1]}
+            </section>
+          </td>
+          <td className="td-expand-button edit-buttons">
+            <button className="edit">Edit</button>
+            {/* <button className="delete">Delete</button> */}
+          </td>
+        </tr>
+        <tr>
+          <td className="td-letter-column">
+            <section className="goal-letter">A</section>
+          </td>
+          <td className="td-goal-column">
+            <section className="goal-attribute">ACHIEVABLE</section>
+          </td>
+          <td className="td-goal-text-entry">
+            <div className="form-body">
+              <form className="row g-3">
+                <div className="col-auto">
+                  <textarea
+                    className="text-area"
+                    id="A-input"
+                    name="A-goal"
+                    rows="6"
+                    cols="90"
+                    placeholder="How will you do it?"
+                    maxLength="1000"
+                    onKeyUp={(event) => keyDownHandler(event, 2)}
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+          </td>
+          <td className="td-remaining">
+            <section className={remainingTextColourClass[2]} id="A-remaining">
+              {showRemainingTextMessage[2]}
+            </section>
+          </td>
+          <td className="td-expand-button edit-buttons">
+            <button className="edit">Edit</button>
+            {/* <button className="delete">Delete</button> */}
+          </td>
+        </tr>
+        <tr>
+          <td className="td-letter-column">
+            <section className="goal-letter">R</section>
+          </td>
+          <td className="td-goal-column">
+            <section className="goal-attribute">RELEVANT</section>
+          </td>
+          <td className="td-goal-text-entry">
+            <div className="form-body">
+              <form className="row g-3">
+                <div className="col-auto">
+                  <textarea
+                    className="text-area"
+                    id="R-input"
+                    name="R-goal"
+                    rows="6"
+                    cols="90"
+                    placeholder="Is this relevant to your life now?"
+                    maxLength="1000"
+                    onKeyUp={(event) => keyDownHandler(event, 3)}
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+          </td>
+          <td className="td-remaining">
+            <section className={remainingTextColourClass[3]} id="R-remaining">
+              {showRemainingTextMessage[3]}
+            </section>
+          </td>
+          <td className="td-expand-button edit-buttons">
+            <button className="edit">Edit</button>
+            {/* <button className="delete">Delete</button> */}
+          </td>
+        </tr>
+        <tr>
+          <td className="td-letter-column">
+            <section className="goal-letter">T</section>
+          </td>
+          <td className="td-goal-column">
+            <section className="goal-attribute">TIMEBOUND</section>
+          </td>
+          <td className="td-goal-text-entry">
+            <div className="form-body">
+              <form className="row g-3">
+                <div className="col-auto">
+                  <textarea
+                    className="text-area"
+                    id="T-input"
+                    name="T-goal"
+                    rows="6"
+                    cols="90"
+                    placeholder="When do you want to do it?"
+                    maxLength="1000"
+                    onKeyUp={(event) => keyDownHandler(event, 4)}
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+          </td>
+          <td className="td-remaining">
+            <section className={remainingTextColourClass[4]} id="T-remaining">
+              {showRemainingTextMessage[4]}
+            </section>
+          </td>
+          <td className="td-expand-button edit-buttons">
+            <button className="edit">Edit</button>
+            {/* <button className="delete">Delete</button> */}
+          </td>
+        </tr>
+      </table>
+      <section className="buttons-container">
+        <button className="button-78">Discard</button>
+        <button className="button-78">Save</button>
+        <button className="button-78">Save & Close</button>
+      </section>
     </div>
   );
 };
