@@ -42,12 +42,22 @@
   color: var(--colour-white);
 }
 
+.display-flex {
+        display: flex;
+        justify-content: space-evenly;
+}
+
 .title-header {
   background-color: #282c34;
   text-align: center;
   font-size: calc(2em + 2vmin);
   padding: 0.1em;
   color: var(--colour-white);
+}
+
+.timestamp-header {
+  font-size: calc(2em + 1vmin);
+  font-style: italic;
 }
 
 .App-link {
