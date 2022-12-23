@@ -3,6 +3,7 @@
   --colour-black: #000000;
   --REMAINING_TEXT_DEFAULT_COLOUR: "#657786";
   --LESSTHAN21_COLOUR: "#FF0000"; /* Red */
+  --expand-button-colour: rgb(255, 116, 38);
 }
 
 /* Make the placeholder italics */
@@ -105,10 +106,6 @@ td {
 } 
 */
 
-td.edit-buttons {
-  text-align: right;
-}
-
 button {
   border-radius: 3px;
   border: none;
@@ -121,12 +118,8 @@ button:hover {
   opacity: 0.9;
 }
 
-button.edit {
-  background: #6F9;
-}
-
-button.delete {
-  background: #F69;
+button.expand {
+  background: var(--expand-button-colour);
 }
 
 .td-letter-column {
@@ -323,11 +316,13 @@ button.delete {
       height: 100%;
   }
 
+  /*
   td.edit-buttons,
   td.empty {
     /*flex: 1 0 90%;
-    text-align: center;*/
+    text-align: center;
   }
+  */
 }
 
 * {
