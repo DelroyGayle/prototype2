@@ -69,7 +69,13 @@ const EnterPlans = () => {
 
   const [planText, setPlanText] = useState(["", "", "", "", ""]);
 
-  const [planCharacterCount, setPlanCharacterCount] = useState([0, 0, 0, 0, 0]);
+  const [planCharacterCount, setPlanCharacterCount] = useState([
+    PLAN_ENTRY_LIMIT,
+    PLAN_ENTRY_LIMIT,
+    PLAN_ENTRY_LIMIT,
+    PLAN_ENTRY_LIMIT,
+    PLAN_ENTRY_LIMIT,
+  ]);
 
   // const [remainingNumber, setRemainingNumber] = useState([
   //   PLAN_ENTRY_LIMIT,
@@ -244,6 +250,23 @@ const EnterPlans = () => {
 
   function handleChange(event, whichPlan) {
     let enteredPlan = event.target.value.trim();
+    // Update display with the Remaining Characters
+    const updatedText = [...planText];
+    console.log(planText);
+    updatedText[whichPlan] = enteredPlan;
+    console.log(whichPlan, enteredPlan, updatedText);
+    console.log(whichPlan, planCharacterCount);
+    // Show Entered Text
+    setPlanText(updatedText);
+
+    // Show Number Of Characters Remaining
+    const updatedCount = [...planCharacterCount];
+    updatedCount[whichPlan] = enteredPlan.length;
+    console.log(updatedCount);
+    //console.log(remainingTextColour[whichPlan], newRemainingTextColour);
+    setPlanCharacterCount(updatedCount);
+return
+
     planInputs[S_PLAN] = event.target.value.trim();
     console.log("ALSO", event.code, event.key);
     checkAndIncrementCharCount(event, whichPlan, enteredPlan);
@@ -273,33 +296,50 @@ const EnterPlans = () => {
   //   };
   // }, [handleKeyPress]);
 
-  useEffect(() => {
-    setRemainingNumber([1000, 1000, 1000, 1000, 1000]);
-  }, []);
-
-  useEffect(() => {
-    for (let i = 0; i < 5; i++) {
-      // Using -1 until I figure out why it is showing the previous value
-      const diff = PLAN_ENTRY_LIMIT - planCharacterCount[i] - 1;
-      console.log(PLAN_ENTRY_LIMIT, planCharacterCount, diff);
-      showRemainingTextMessage[i] =
-        String(diff).padStart(3) +
-        " Remaining Character" +
-        (diff !== 1 ? "s" : "");
-      remainingTextColourClass[i] = remainingTextColour[i]
-        ? "td-remaining-default"
-        : "td-remaining-less21";
-    }
-
-    console.log(planCharacterCount, showRemainingTextMessage);
-  }, [planText, planCharacterCount, remainingTextColour]);
-
   return (
     <div>
       <header className="display-flex">
         <div className="title-header">MY SMART GOALS</div>
         <div className="title-header timestamp-header">{displayTimeStamp}</div>
       </header>
+      <section className="grid-container-border">
+        <section className="grid-container">
+          <div className="td-goal-letter">
+            <div className="goal-letter">S</div>
+          </div>
+          <div className="td-goal-attribute">
+            <div className="goal-attribute">SPECIFIC</div>
+          </div>
+          <div className="td-goal-text-entry">
+            <div className="form-body">
+              <form className="row g-3">
+                <div className="col-auto">
+                  <textarea
+                    className="text-area"
+                    rows="6"
+                    cols="90"
+                    placeholder="What do you want to do?"
+                    maxLength="1000"
+                    id="S-input"
+                    name="S-goal"
+                    autoComplete="off"
+                    value={planInputs[S_PLAN]}
+                    onChange={(event) => handleChange(event, 0)}
+                    // onKeyUp={(event) => keyDownHandler(event, 0)}
+                  ></textarea>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div className="td-remaining">
+            REMAINING {showRemainingTextMessage[0]}
+          </div>
+          <div className="td-expand-buttons">
+            <button className="expand">Expand</button>
+            {/* <button className="delete">Delete</button> */}
+          </div>
+        </section>
+      </section>
       <table className="table">
         <tr>
           <td className="td-letter-column">
@@ -322,8 +362,8 @@ const EnterPlans = () => {
                     name="S-goal"
                     autoComplete="off"
                     value={planInputs[S_PLAN]}
-                    //onChange={(event) => handleChange(event, 0)}
-                    onKeyUp={(event) => keyDownHandler(event, 0)}
+                    onChange={(event) => handleChange(event, 0)}
+                    // onKeyUp={(event) => keyDownHandler(event, 0)}
                   ></textarea>
                 </div>
               </form>

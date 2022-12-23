@@ -80,6 +80,52 @@ body {
   background-color: var(--colour-black);
 }
 
+.grid-container-border {
+    border: 1px solid var(--colour-white);
+}
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining grid-expandbutton'
+    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining grid-expandbutton'
+    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining grid-expandbutton'
+    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining grid-expandbutton'
+    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining grid-expandbutton'
+   ;
+  grid-template-columns: 6em 14em 3fr 1fr 2em;
+  gap: 10px;
+  background-color: var(--colour-black);
+  padding: 10px;
+}
+
+.cell {
+  color: white;
+  font-size: 3rem;
+  text-align: center;
+  padding: 4rem;
+}
+
+.item1 {
+  grid-area: grid-letter;
+}
+
+.item2 {
+  grid-area: grid-attribute;
+}
+
+.item3 {
+  grid-area: grid-plan-entry-box;
+}
+
+.item4 {
+  grid-area: grid-remaining;
+}
+
+.item5 {
+  grid-area: grid-expandbutton;
+}
+
 .table {
   width: 100%;
   table-layout: fixed;
@@ -135,11 +181,14 @@ button.expand {
 }
 
 .td-goal-text-entry {
-  width: 60%; /* DG */
+  grid-area: grid-plan-entry-box;
+  /*width: 60%;*/ /* DG */
   border-style: hidden;
 }
 
 .td-remaining {
+  grid-area: grid-remaining;
+  color: var(--colour-white);
   /* width: 60%; */
   border-style: hidden;
   /* color: var(--colour-white); */
@@ -159,17 +208,38 @@ button.expand {
   border-style: hidden;
 }
 
-
-.goal-letter {
+.td-goal-letter {
+  grid-area: grid-letter;
   font-size: 6em;
   color: var(--colour-white);
   text-align: center;
 }
 
-.goal-attribute {
+.goal-letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.td-goal-attribute {
+  grid-area: grid-attribute;
   font-size: 2em;
   background-color: var(--colour-white);
   color: var(--colour-black);
+}
+
+.goal-attribute {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.goal-attribute {
+  /* display: flex; */
+  /* align-items: center; */
+  /* justify-content: center; */
+  padding-top: 1.3em;
+  /* margin: auto; */
 }
 
 .text-area {
