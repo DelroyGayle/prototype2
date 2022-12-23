@@ -334,7 +334,7 @@ const EnterPlans = () => {
               {showRemainingTextMessage[0]}
             </section>
           </td>
-          <td className="td-expand-button edit-buttons">
+          <td className="td-expand-buttons edit-buttons">
             <button className="edit">Edit</button>
             {/* <button className="delete">Delete</button> */}
           </td>

@@ -81,6 +81,7 @@ body {
 
 .table {
   width: 100%;
+  table-layout: fixed;
 }
 
 table,
@@ -93,6 +94,10 @@ td {
 .table td {
   text-align: left;
   padding: 0.25em;
+}
+
+.table td {
+  padding: 0.313em; /* 5px; */
 }
 
 /* .table tr {
@@ -125,18 +130,19 @@ button.delete {
 }
 
 .td-letter-column {
-  width: 3em;
+  width: 6em;
   border-style: hidden;
 }
 
 .td-goal-column {
   background: var(--colour-white);
   border-style: hidden;
-  width:20%
+  width: 14em;
+  /* width:20% */
 }
 
 .td-goal-text-entry {
-  width: 60%;
+  width: 60%; /* DG */
   border-style: hidden;
 }
 
@@ -155,10 +161,11 @@ button.delete {
   color: var(--LESSTHAN21_COLOUR); /* Red */
 }
 
-.td-expand-button {
+.td-expand-buttons {
+  text-align: right;
   border-style: hidden;
-  width: 5%;
 }
+
 
 .goal-letter {
   font-size: 6em;
