@@ -93,7 +93,7 @@ body {
     'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining grid-expandbutton'
     'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining grid-expandbutton'
    ;
-  grid-template-columns: 6em 14em 3fr 1fr 2em;
+  grid-template-columns: 6em 14em 3fr 6em 2em;
   gap: 10px;
   background-color: var(--colour-black);
   padding: 10px;
@@ -182,13 +182,33 @@ button.expand {
 
 .td-goal-text-entry {
   grid-area: grid-plan-entry-box;
+  /* display:flex; */
   /*width: 60%;*/ /* DG */
   border-style: hidden;
+}
+
+.textarea-label {
+  display: block;
+  font-size: 1.4em;
+  /* border, padding, and other styles go here,
+  don't set the height, and don't use floats or positioning */
+}
+
+.textarea-label textarea {
+  border: 0 none;
+  margin: 0;
+  outline: 0 none;
+  padding: 0;
+  width: 100%;
 }
 
 .td-remaining {
   grid-area: grid-remaining;
   color: var(--colour-white);
+  font-size: 1.2em;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
   /* width: 60%; */
   border-style: hidden;
   /* color: var(--colour-white); */
@@ -204,8 +224,11 @@ button.expand {
 }
 
 .td-expand-buttons {
-  text-align: right;
+  /* text-align: right; */
   border-style: hidden;
+  display: flex;
+  justify-content: center;
+    align-items: center;
 }
 
 .td-goal-letter {

@@ -70,11 +70,11 @@ const EnterPlans = () => {
   const [planText, setPlanText] = useState(["", "", "", "", ""]);
 
   const [planCharacterCount, setPlanCharacterCount] = useState([
-    PLAN_ENTRY_LIMIT,
-    PLAN_ENTRY_LIMIT,
-    PLAN_ENTRY_LIMIT,
-    PLAN_ENTRY_LIMIT,
-    PLAN_ENTRY_LIMIT,
+    0,
+    0,
+    0,
+    0,
+    0,
   ]);
 
   // const [remainingNumber, setRemainingNumber] = useState([
@@ -95,7 +95,14 @@ const EnterPlans = () => {
     true,
   ]);
 
-  function showRemainingChars(whichPlan, updatedText, charCount) {
+  function showRemainingChars(whichPlan) {
+    console.log(whichPlan, PLAN_ENTRY_LIMIT - planCharacterCount[whichPlan]);
+      let diff = PLAN_ENTRY_LIMIT - planCharacterCount[whichPlan];
+      let newRemainingText = String(diff).padStart(3) + " Remaining Characters";
+      return <p>{newRemainingText}</p>
+  }
+
+  function showRemainingChars2(whichPlan, updatedText, charCount) {
     console.log("S+", whichPlan, updatedText, planText);
     charCount = updatedText[whichPlan].length;
     let diff = PLAN_ENTRY_LIMIT - charCount;
@@ -248,7 +255,35 @@ const EnterPlans = () => {
     }
   }
 
+
   function handleChange(event, whichPlan) {
+    let enteredPlan = event.target.value.trim();
+    // Update display with the Remaining Characters
+    const updatedText = [...planText];
+    console.log(planText);
+    updatedText[whichPlan] = enteredPlan;
+    console.log(whichPlan, enteredPlan, updatedText);
+    console.log(whichPlan, planCharacterCount);
+    // Show Entered Text
+    setPlanText(updatedText);
+
+    // Show Number Of Characters Remaining
+    const updatedCount = [...planCharacterCount];
+    updatedCount[whichPlan] = enteredPlan.length;
+    console.log(updatedCount);
+    //console.log(remainingTextColour[whichPlan], newRemainingTextColour);
+    setPlanCharacterCount(updatedCount);
+    return;
+
+    planInputs[S_PLAN] = event.target.value.trim();
+    console.log("ALSO", event.code, event.key);
+    checkAndIncrementCharCount(event, whichPlan, enteredPlan);
+    // setSearchInput(enteredString);
+    console.log(enteredPlan, planInputs[S_PLAN], theKey, theKey.length);
+  }
+
+
+  function handleChange2(event, whichPlan) {
     let enteredPlan = event.target.value.trim();
     // Update display with the Remaining Characters
     const updatedText = [...planText];
@@ -313,7 +348,7 @@ return
           <div className="td-goal-text-entry">
             <div className="form-body">
               <form className="row g-3">
-                <div className="col-auto">
+                <div className="textarea-label">
                   <textarea
                     className="text-area"
                     rows="6"
@@ -331,9 +366,8 @@ return
               </form>
             </div>
           </div>
-          <div className="td-remaining">
-            REMAINING {showRemainingTextMessage[0]}
-          </div>
+          <div className="td-remaining">{showRemainingChars(0)}</div>
+          {/* <div className="td-remaining">REMAINING {planCharacterCount[0]}</div> */}
           <div className="td-expand-buttons">
             <button className="expand">Expand</button>
             {/* <button className="delete">Delete</button> */}
@@ -354,8 +388,8 @@ return
                 <div className="col-auto">
                   <textarea
                     className="text-area"
-                    rows="6"
-                    cols="90"
+                    // rows="6"
+                    // cols="90"
                     placeholder="What do you want to do?"
                     maxLength="1000"
                     id="S-input"
