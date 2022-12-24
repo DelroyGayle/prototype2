@@ -4,6 +4,7 @@ import React from "react";
 // import FakeBookings from "./data/fakeBookings.json";
 
 import { useState, useEffect } from "react";
+import RemainingCharactersText from "./RemainingCharactersText";
 
 // Setup
 const S_PLAN = 0;
@@ -12,7 +13,7 @@ const A_PLAN = 2;
 const R_PLAN = 3;
 const T_PLAN = 4;
 const PLAN_INPUT_IDS = ["S-input", "M-input", "A-input", "R-input", "T-input"];
-const PLAN_ENTRY_LIMIT = 1000;
+const PLAN_ENTRY_MAXLENGTH = 1500;
 const REMAINING_TEXT_DEFAULT_COLOUR = "#657786";
 const LESSTHAN21_COLOUR = "#FF0000"; // Red
 const remainingLoc = document.querySelector(".remaining");
@@ -78,11 +79,11 @@ const EnterPlans = () => {
   ]);
 
   // const [remainingNumber, setRemainingNumber] = useState([
-  //   PLAN_ENTRY_LIMIT,
-  //   PLAN_ENTRY_LIMIT,
-  //   PLAN_ENTRY_LIMIT,
-  //   PLAN_ENTRY_LIMIT,
-  //   PLAN_ENTRY_LIMIT
+  //   PLAN_ENTRY_MAXLENGTH,
+  //   PLAN_ENTRY_MAXLENGTH,
+  //   PLAN_ENTRY_MAXLENGTH,
+  //   PLAN_ENTRY_MAXLENGTH,
+  //   PLAN_ENTRY_MAXLENGTH
   // ]);
 
   const [remainingNumber, setRemainingNumber] = useState(null);
@@ -96,8 +97,8 @@ const EnterPlans = () => {
   ]);
 
   function showRemainingChars(whichPlan) {
-    console.log(whichPlan, PLAN_ENTRY_LIMIT - planCharacterCount[whichPlan]);
-      let diff = PLAN_ENTRY_LIMIT - planCharacterCount[whichPlan];
+    console.log(whichPlan, PLAN_ENTRY_MAXLENGTH - planCharacterCount[whichPlan]);
+      let diff = PLAN_ENTRY_MAXLENGTH - planCharacterCount[whichPlan];
       let newRemainingText = String(diff).padStart(3) + " Remaining Characters";
       return <p>{newRemainingText}</p>
   }
@@ -105,7 +106,7 @@ const EnterPlans = () => {
   function showRemainingChars2(whichPlan, updatedText, charCount) {
     console.log("S+", whichPlan, updatedText, planText);
     charCount = updatedText[whichPlan].length;
-    let diff = PLAN_ENTRY_LIMIT - charCount;
+    let diff = PLAN_ENTRY_MAXLENGTH - charCount;
     let newRemainingText = String(diff).padStart(3) + " Remaining Characters";
     // show in red if less or equal to 20 characters
     // let newRemainingTextColour =
@@ -232,8 +233,8 @@ const EnterPlans = () => {
       charCount = checkKeyEvent(event, planCharacterCount[whichPlan]);
       if (charCount < 1) {
         charCount = 0;
-      } else if (charCount > PLAN_ENTRY_LIMIT) {
-        charCount = PLAN_ENTRY_LIMIT;
+      } else if (charCount > PLAN_ENTRY_MAXLENGTH) {
+        charCount = PLAN_ENTRY_MAXLENGTH;
       }
     }
     console.log(planText, enteredPlan);
@@ -346,31 +347,34 @@ return
             <div className="goal-attribute">SPECIFIC</div>
           </div>
           <div className="td-goal-text-entry">
-            <div className="form-body">
-              <form className="row g-3">
+            <div>
+              <form>
                 <div className="textarea-label">
                   <textarea
                     className="text-area"
                     rows="6"
                     cols="90"
                     placeholder="What do you want to do?"
-                    maxLength="1000"
+                    maxLength={PLAN_ENTRY_MAXLENGTH}
                     id="S-input"
                     name="S-goal"
                     autoComplete="off"
                     value={planInputs[S_PLAN]}
                     onChange={(event) => handleChange(event, 0)}
-                    // onKeyUp={(event) => keyDownHandler(event, 0)}
                   ></textarea>
                 </div>
               </form>
             </div>
           </div>
-          <div className="td-remaining">{showRemainingChars(0)}</div>
-          {/* <div className="td-remaining">REMAINING {planCharacterCount[0]}</div> */}
-          <div className="td-expand-buttons">
-            <button className="expand">Expand</button>
-            {/* <button className="delete">Delete</button> */}
+          <div className="td-remaining-and-button">
+            <RemainingCharactersText
+              maxLength={PLAN_ENTRY_MAXLENGTH}
+              remainNum={planCharacterCount[0]}
+              text={showRemainingChars(0)}
+            />
+            <div>
+              <button className="expand-button">Expand</button>
+            </div>
           </div>
         </section>
       </section>

@@ -1,20 +1,22 @@
 :root {
   --colour-white: #ffffff;
   --colour-black: #000000;
-  --REMAINING_TEXT_DEFAULT_COLOUR: "#657786";
-  --LESSTHAN21_COLOUR: "#FF0000"; /* Red */
+  --LESSTHAN21_COLOUR: #FF0000; /* Red */
   --expand-button-colour: rgb(255, 116, 38);
 }
 
 /* Make the placeholder italics */
-
 
 ::placeholder {
   color: var(--colour-black);
   font-size: 1em;
   font-style: italic;
   font-weight:700;
-  padding: 1em 0 0 1em;
+  padding: 2.1em 0 0 1em;
+}
+
+* {
+  font-family: 'futura';
 }
 
 .App {
@@ -43,9 +45,14 @@
   color: var(--colour-white);
 }
 
+body {
+  padding: 2em;
+  background-color: var(--colour-black);
+}
+
 .display-flex {
-        display: flex;
-        justify-content: space-evenly;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .title-header {
@@ -61,25 +68,6 @@
   font-style: italic;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-
-body {
-  padding: 2em;
-  background-color: var(--colour-black);
-}
-
 .grid-container-border {
     border: 1px solid var(--colour-white);
 }
@@ -87,148 +75,16 @@ body {
 .grid-container {
   display: grid;
   grid-template-areas:
-    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining grid-expandbutton'
-    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining grid-expandbutton'
-    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining grid-expandbutton'
-    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining grid-expandbutton'
-    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining grid-expandbutton'
+    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining-and-button'
+    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining-and-button'
+    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining-and-button'
+    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining-and-button'
+    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining-and-button'
    ;
-  grid-template-columns: 6em 14em 3fr 6em 2em;
-  gap: 10px;
+  grid-template-columns: 6em 14em 3fr 8em;
+  gap: 0.625em; /* 10px; */
   background-color: var(--colour-black);
-  padding: 10px;
-}
-
-.cell {
-  color: white;
-  font-size: 3rem;
-  text-align: center;
-  padding: 4rem;
-}
-
-.item1 {
-  grid-area: grid-letter;
-}
-
-.item2 {
-  grid-area: grid-attribute;
-}
-
-.item3 {
-  grid-area: grid-plan-entry-box;
-}
-
-.item4 {
-  grid-area: grid-remaining;
-}
-
-.item5 {
-  grid-area: grid-expandbutton;
-}
-
-.table {
-  width: 100%;
-  table-layout: fixed;
-}
-
-table,
-th,
-td {
-  border: 1px solid var(--colour-white);
-}
-
-.table th,
-.table td {
-  text-align: left;
-  padding: 0.25em;
-}
-
-.table td {
-  padding: 0.313em; /* 5px; */
-}
-
-/* .table tr {
-  border-bottom: 1px solid #DDD;
-} 
-*/
-
-button {
-  border-radius: 3px;
-  border: none;
-  margin: 0 0.25em;
-  transition: all 0.3s;
-}
-
-button:hover {
-  box-shadow: 0 0 4px rgba(3, 3, 3, 0.8);
-  opacity: 0.9;
-}
-
-button.expand {
-  background: var(--expand-button-colour);
-}
-
-.td-letter-column {
-  width: 6em;
-  border-style: hidden;
-}
-
-.td-goal-column {
-  background: var(--colour-white);
-  border-style: hidden;
-  width: 14em;
-  /* width:20% */
-}
-
-.td-goal-text-entry {
-  grid-area: grid-plan-entry-box;
-  /* display:flex; */
-  /*width: 60%;*/ /* DG */
-  border-style: hidden;
-}
-
-.textarea-label {
-  display: block;
-  font-size: 1.4em;
-  /* border, padding, and other styles go here,
-  don't set the height, and don't use floats or positioning */
-}
-
-.textarea-label textarea {
-  border: 0 none;
-  margin: 0;
-  outline: 0 none;
-  padding: 0;
-  width: 100%;
-}
-
-.td-remaining {
-  grid-area: grid-remaining;
-  color: var(--colour-white);
-  font-size: 1.2em;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-end;
-  /* width: 60%; */
-  border-style: hidden;
-  /* color: var(--colour-white); */
-}
-
-.td-remaining-default {
-  color: var(--REMAINING_TEXT_DEFAULT_COLOUR); /* "#657786"; */
-  color: var(--colour-white);
-}
-
-.td-remaining-less21 {
-  color: var(--LESSTHAN21_COLOUR); /* Red */
-}
-
-.td-expand-buttons {
-  /* text-align: right; */
-  border-style: hidden;
-  display: flex;
-  justify-content: center;
-    align-items: center;
+  padding: 0.625em; /* 10px; */
 }
 
 .td-goal-letter {
@@ -239,9 +95,14 @@ button.expand {
 }
 
 .goal-letter {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.td-letter-column {
+  width: 6em;
+  border-style: hidden;
 }
 
 .td-goal-attribute {
@@ -255,21 +116,71 @@ button.expand {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding-top: 1.3em;
 }
 
-.goal-attribute {
-  /* display: flex; */
-  /* align-items: center; */
-  /* justify-content: center; */
-  padding-top: 1.3em;
-  /* margin: auto; */
+.td-goal-text-entry {
+  grid-area: grid-plan-entry-box;
+}
+
+.textarea-label {
+  display: block;
+  font-size: 1.4em;
+}
+
+.textarea-label textarea {
+  border: 0 none;
+  margin: 0;
+  outline: 0 none;
+  padding: 0;
+  width: 100%;
 }
 
 .text-area {
   width: 53em;
-  margin:0.3em;
+  margin: 0.3em;
   font-size: 1em;
 }
+
+.td-remaining-and-button {
+  grid-area: grid-remaining-and-button;
+  display: flex;
+  gap: 1.2em;
+  font-size: 1.2em;
+  align-items: flex-end;
+}
+
+.td-remaining {
+  grid-area: grid-remaining;
+  color: var(--colour-white);
+}
+
+.td-remaining-default {
+  color: var(--colour-white);
+}
+
+.td-remaining-less21 {
+  color: var(--LESSTHAN21_COLOUR); /* Red */
+}
+
+button {
+  border-radius: 3px;
+  border: none;
+  margin: 0 0.25em;
+  transition: all 0.3s;
+}
+
+button:hover {
+  box-shadow: 0 0 4px rgba(3, 3, 3, 0.8);
+  opacity: 0.9;
+}
+
+button.expand-button {
+  background: var(--expand-button-colour);
+  margin-bottom: 1.5em;
+}
+
+
 
 /* Button 78 from https: //getcssscan.com/css-buttons-examples */
 
@@ -416,9 +327,4 @@ button.expand {
     text-align: center;
   }
   */
-}
-
-* {
-  box-model: border-box;
-  font-family: 'futura';
 }
