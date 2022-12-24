@@ -1,5 +1,5 @@
 import React from "react";
-import EnterPlans from "./EnterPlans";
+import EnterPlans from "./client/components/PlanEntry/EnterPlans";
 import "./App.css";
 
 const App = () => {

@@ -76,11 +76,7 @@ body {
   display: grid;
   grid-template-areas:
     'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining-and-button'
-    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining-and-button'
-    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining-and-button'
-    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining-and-button'
-    'grid-letter grid-attribute grid-plan-entry-box grid-plan-entry-box grid-plan-entry-box grid-remaining-and-button'
-   ;
+    ;
   grid-template-columns: 6em 14em 3fr 8em;
   gap: 0.625em; /* 10px; */
   background-color: var(--colour-black);
@@ -299,6 +295,10 @@ button.expand-button {
      margin-top: 3em;
      display: flex;
      justify-content: space-evenly;
+}
+
+.leading-whitespace {
+  white-space: pre-wrap;
 }
 
 @media screen and (max-width: 800px) {
