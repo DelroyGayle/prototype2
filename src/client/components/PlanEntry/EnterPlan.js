@@ -4,7 +4,7 @@ import PlanDefinition from "./PlanDefinition";
 import { monthNames } from "../../utils/constants.js";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-const fs = require("fs");
+import * as fs from "fs-web";
 
 /* EG FOR new Date("2022-03-01" 
 filenameTimeStamp => USERNAME:20220201:000000 - This is used as the unique key for the Plan SQL records 
@@ -146,15 +146,15 @@ function discardEnteredPlan(planId) {
 function savePlan(planId, planText) {
   let filename = planId.replace(/:/g, ""); // EG USERNAME20221126224547
   let jsonData = JSON.stringify(planText);
-  console.log(filename);
-  console.log(jsonData)
-  console.log(typeof filename, typeof jsonData)
-  console.log(fs)
+  fs.writeFile(filename, jsonData)
+    .then(function () {
+      console.log(filename);
+      console.log(jsonData);
+      console.log(typeof filename, typeof jsonData);
+    })
+    .catch((err) => alert(err));
+ 
   return
-  fs.writeFile(filename, jsonData, function (err) {
-    if (err) {
-      console.log(err);
-    }
-  });
+
 }
 export default EnterPlan;

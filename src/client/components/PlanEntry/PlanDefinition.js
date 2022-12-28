@@ -26,25 +26,20 @@ const PlanDefinition = ({
     let s = String(diff);
     newRemainingText =
       " ".repeat(4 - s.length) + diff + " Remaining Characters";
-    console.log(">" + newRemainingText);
     return <p className="leading-whitespace">{newRemainingText}</p>;
   }
 
   function handleChange(event, whichPlan) {
     let enteredPlan = event.target.value.trim();
-    console.log(whichPlan, planText, enteredPlan);
     // Update display with the Remaining Characters
     const updatedText = [...planText];
     updatedText[whichPlan] = enteredPlan;
-    console.log(updatedText);
     // Show Entered Text
     setPlanText(updatedText);
 
     // Show Number Of Characters Remaining
     const updatedCount = [...planCharacterCount];
-    console.log(whichPlan, planCharacterCount);
     updatedCount[whichPlan] = enteredPlan.length;
-    console.log(whichPlan, updatedCount);
     setPlanCharacterCount(updatedCount);
   }
 
