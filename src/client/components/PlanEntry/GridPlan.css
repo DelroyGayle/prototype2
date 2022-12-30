@@ -1,20 +1,3 @@
-:root {
-    --colour-white: #ffffff;
-    --colour-black: #000000;
-    --LESSTHAN21_COLOUR: #FF0000;
-    /* Red */
-    --expand-button-colour: rgb(255, 116, 38);
-}
-
-/* Make the placeholder italics */
-
-::placeholder {
-    color: var(--colour-black);
-    font-size: 1em;
-    font-style: italic;
-    font-weight: 700;
-    padding: 2.1em 0 0 1em;
-}
 
 * {
     font-family: 'futura';

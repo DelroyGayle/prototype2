@@ -90,7 +90,7 @@ const App = () => {
        a moment it comes tearing onward, and lays many a field waste that many a strong man hand has 
        reclaimed- even so were the dense phalanxes of the Trojans driven in rout by the son of Tydeus, 
        and many though they were, they dared not abide his onslaught.`,
-    `It is Spring, moonless night in the small town, starless and bible-black, the cobblestreets silent 
+    `It is Spring, moonless night in the small town, starless and black, the cobblestreets silent 
        and the hunched, courters'-and- rabbits' wood limping invisible down to the sloeblack, slow, black, 
        crowblack, fishingboat-bobbing sea. The houses are blind as moles (though moles see fine to-night 
        in the snouting, velvet dingles) or blind as Captain Cat there in the muffled middle by the pump 
@@ -109,6 +109,7 @@ const App = () => {
     }
     thePlanTable[i - 1] = fiveParts;
   }
+  console.log(thePlanTable.length);
 
   const primaryKeys = [];
   // Create six mock primary keys - FORMAT USERID.YYMMDD.HHMMSS
@@ -124,11 +125,13 @@ const App = () => {
   primaryKeys[4] += "193749";
   primaryKeys[5] += "213939";
   console.log(primaryKeys.sort().reverse()) // Descending order
-  console.log(primaryKeys)
+  console.log(primaryKeys.length, primaryKeys)
+  console.log(thePlanTable.length,thePlanTable)
+   console.log(thePlanTable.length, primaryKeys.length);
   return (
     <div className="App">
       <PlanMainMenu thePrimaryKeys={primaryKeys} thePlanTable={thePlanTable} />
-      <EnterPlan />
+      {/* <EnterPlan /> */}
     </div>
   );
 };
