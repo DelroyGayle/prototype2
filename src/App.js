@@ -5,7 +5,7 @@ import "./App.css";
 
 const thePlanTable = [];
 const App = () => {
-  /*
+/*
    Create mock data to test functionality
    JSON Data
 */
@@ -48,7 +48,7 @@ const App = () => {
        And now, instead of mounting barded steeds 
        To fright the souls of fearful adversaries,
        He capers nimbly in a lady's chamber
-       To the lascivious pleasing of a lute.`,
+       To the lascivious pleasing of a lute. `,
     `But I, that am not shaped for sportive tricks,
        Nor made to court an amorous looking-glass;
        I, that am rudely stamp'd, and want love's majesty
@@ -106,10 +106,9 @@ const App = () => {
       const randomElement =
         mockData[Math.floor(Math.random() * mockData.length)];
       fiveParts.push(randomElement);
-    }
+    };
     thePlanTable[i - 1] = fiveParts;
-  }
-  console.log(thePlanTable.length);
+  };
 
   const primaryKeys = [];
   // Create six mock primary keys - FORMAT USERID.YYMMDD.HHMMSS
@@ -124,10 +123,6 @@ const App = () => {
   primaryKeys[3] += "060649";
   primaryKeys[4] += "193749";
   primaryKeys[5] += "213939";
-  console.log(primaryKeys.sort().reverse()) // Descending order
-  console.log(primaryKeys.length, primaryKeys)
-  console.log(thePlanTable.length,thePlanTable)
-   console.log(thePlanTable.length, primaryKeys.length);
   return (
     <div className="App">
       <PlanMainMenu thePrimaryKeys={primaryKeys} thePlanTable={thePlanTable} />

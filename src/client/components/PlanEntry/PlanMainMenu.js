@@ -1,11 +1,8 @@
-// PlanMainMenu;
-// <PlanMainMenu planTable = {thePlanTable}/>
-// <PlanMainMenu thePrimaryKeys={primaryKeys} thePlanTable={thePlanTable} />
-
 import React from "react";
-import { useState } from "react";
+// import { useState } from "react";
 import "../../components/PlanEntry/PlanMainMenu.css";
-const PREAMBLE_SIZE = 300;
+import DisplayListItem from "./DisplayListItem.js"
+// const PREAMBLE_SIZE = 300;
 
 // <PlanMainMenu thePrimaryKeys={primaryKeys} thePlanTable={thePlanTable} />
 const PlanMainMenu = ({ thePrimaryKeys, thePlanTable }) => {
@@ -30,43 +27,16 @@ const PlanMainMenu = ({ thePrimaryKeys, thePlanTable }) => {
   const orderedList = (
     <ol className="main-menu-items">
       {keysArray.map((eachKey, index) => {
-        const theDateAndTime = createDateDisplay(index, eachKey);
-        console.log(theDateAndTime, preambleArray[index]);
-        const thePreamble = createPreamble(preambleArray[index])
-        //const theDateAndTime = "23 Dec 2022 11:11:34"
         return (
-          <li className="main-menu-item" key={eachKey}>
-            <div className="main-menu-date">
-              <p className="date-and-time">{theDateAndTime}</p>
-            </div>
-
-            <div className="main-menu-description">
-              {thePreamble}
-            </div>
-            <button className="delete-button">Delete</button>
+          <li className="main-menu-item-container" key={eachKey}>
+            <DisplayListItem
+              theIndex={index}
+              theKey={eachKey}
+              fiveLines={preambleArray[index]}
+            />
           </li>
         );
       })}
-    </ol>
-  );
-  const orderedList2 = (
-    <ol className="main-menu-items">
-      {thePrimaryKeys.map((eachKey, index) => {
-        //const theDateAndTime = dateAndTime(index, eachKey);
-        return (
-          <li className="main-menu-item" key={eachKey}>
-            <div className="main-menu-date">
-              <p>{eachKey}</p>
-            </div>
-
-            <div className="main-menu-preamble">
-              TESTING
-            </div>
-            <button className="delete-button">Delete</button>
-          </li>
-        );
-      })}
-      ;
     </ol>
   );
   console.log("OL DONU", orderedList.length,orderedList)
@@ -80,30 +50,5 @@ const PlanMainMenu = ({ thePrimaryKeys, thePlanTable }) => {
     </>
   );
 };
-
-
-function createDateDisplay(index, eachKey) {
-  if (index === 0) {
-    return (
-      <>
-        <span className="line1">Create</span>{" "}
-        <span className="line2">Plan</span>
-      </>
-    );
-  };
-  return eachKey;
-}
-
-function createPreamble(fiveLinesArray) {
-    console.log(fiveLinesArray)
-  let result = ""
-  for (let i=0;i<fiveLinesArray.length;i++) {
-      result += fiveLinesArray[i]
-      if (result.length > PREAMBLE_SIZE) {
-            break;   
-      };
-  };  
-  return result.slice(0,PREAMBLE_SIZE) + " ...";
-}
 
 export default PlanMainMenu;

@@ -30,6 +30,10 @@ body {
     padding: 0;
     list-style: none;
 }
+.main-menu-item-container {
+    display: flex;
+    align-items: center;
+}
 
 .main-menu-item {
     margin: 10px 0;
@@ -65,7 +69,6 @@ body {
 
 .main-menu-date p {
     display: inline-block;
-    /* padding-top: 40px; */
 }
 
 .main-menu-item:hover,
@@ -74,20 +77,20 @@ body {
     background-color: rgba(173, 195, 242, 0.25);
 }
 
-.main-menu-item:nth-child(4n+1) .main-menu-date {
+.datetime0-colour {
     background-color: #2f60b5;
 }
 
-.main-menu-item:nth-child(4n+2) .main-menu-date {
+.datetime1-colour {
     background-color: #1a7275;
 }
 
-.main-menu-item:nth-child(4n+3) .main-menu-date {
+.datetime2-colour {
     background-color: #dd980d;
 }
 
-.main-menu-item:nth-child(4n+4) .main-menu-date {
-    background-color: #27c2d1;
+.datetime3-colour {
+    background-color: #2e939c;
 }
 
 .main-menu-description {
@@ -102,11 +105,19 @@ body {
 }
 
 .line1,.line2 {
-    font-size: 1.5em;
+    line-height:1.6em;
+    font-size: 1.2em;
 }
 .line1::after {
     content: "\a";
     white-space: pre;
+}
+
+.new-plan-desc {
+    text-align: left;
+    padding-left: 1em;
+    padding-right: 1em;
+    font-size: 3em;
 }
 
 button {
@@ -127,4 +138,6 @@ button.delete-button {
     margin-bottom: 1.5em;
     font-size:0.7em;
     color: black;
+    margin-left: 2em;
+    border: 3px solid rgb(255, 47, 127);
 }
